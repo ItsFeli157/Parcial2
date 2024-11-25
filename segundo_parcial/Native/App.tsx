@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import TeamForm from './components/TeamForm';  // Ajusta las rutas de tus componentes
+import TeamForm from './components/TeamForm';  // Ajusta las rutas
 import TeamDetails from './components/TeamDetails';
 
 const Stack = createStackNavigator();
