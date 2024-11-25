@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "es5",
+    "lib": ["dom", "es2015"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
-    "jsx": "react-native",
-    "strict": true
+    "resolveJsonModule": true,
+    "jsx": "react-native"
   },
   "include": [
-    "native/**/*.tsx",
-    "shared/**/*.ts",
-    "shared/**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-  ],
-  "extends": "expo/tsconfig.base"
+    "app/**/*.tsx"
+  ]
 }
