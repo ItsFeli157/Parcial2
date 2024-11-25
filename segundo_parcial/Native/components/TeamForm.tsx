@@ -1,55 +1,46 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import axios from 'axios';
 
-// Definir tipos para el estado del formulario
-interface TeamFormProps {
-  navigation: any;
-}
-
-const TeamForm: React.FC<TeamFormProps> = ({ navigation }) => {
+const TeamForm = ({ navigation }: any) => {
   const [teamName, setTeamName] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-
-  const handleReset = () => {
-    setTeamName('');
-    setDescription('');
-  };
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
   const handleSubmit = async () => {
-    if (!teamName || !description) {
-      Alert.alert('Error', 'Todos los campos son obligatorios.');
+    if (!teamName) {
+      setError('El nombre del equipo es obligatorio.');
       return;
     }
+
+    setLoading(true);
+    setError('');
+
     try {
-      await axios.post('http://localhost:3000/api/teams', { teamName, description });
-      Alert.alert('Éxito', 'Equipo creado correctamente.');
-      navigation.navigate('TeamDetails'); // Navegar a otra pantalla
+      const response = await axios.post('https://api.example.com/teams', {
+        name: teamName,
+      });
+      setLoading(false);
+      navigation.navigate('TeamDetails', { teamId: response.data.id });
     } catch (error) {
-      Alert.alert('Error', 'No se pudo crear el equipo.');
+      setLoading(false);
+      setError('Hubo un error al crear el equipo.');
+      console.error(error);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Nombre del Equipo</Text>
+      <Text style={styles.title}>Formulario de Equipo</Text>
       <TextInput
-        style={styles.input}
+        placeholder="Nombre del equipo"
         value={teamName}
         onChangeText={setTeamName}
-        placeholder="Escribe el nombre del equipo"
-      />
-      <Text style={styles.label}>Descripción</Text>
-      <TextInput
         style={styles.input}
-        value={description}
-        onChangeText={setDescription}
-        placeholder="Escribe una descripción"
       />
-      <View style={styles.buttonContainer}>
-        <Button title="Restablecer" onPress={handleReset} color="#FF6347" />
-        <Button title="Guardar" onPress={handleSubmit} />
-      </View>
+      {error ? <Text style={styles.error}>{error}</Text> : null}
+      <Button title="Crear equipo" onPress={handleSubmit} disabled={loading} />
+      {loading && <Text style={styles.loading}>Cargando...</Text>}
     </View>
   );
 };
@@ -57,24 +48,29 @@ const TeamForm: React.FC<TeamFormProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 20,
-    backgroundColor: '#fff',
   },
-  label: {
-    fontSize: 18,
-    marginBottom: 10,
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
   },
   input: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
+    width: '100%',
+    padding: 10,
     marginBottom: 20,
-    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
     borderRadius: 5,
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  error: {
+    color: 'red',
+    marginBottom: 10,
+  },
+  loading: {
+    marginTop: 10,
+    color: 'blue',
   },
 });
 
