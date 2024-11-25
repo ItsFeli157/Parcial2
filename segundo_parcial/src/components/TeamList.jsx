@@ -25,7 +25,7 @@ const TeamList = () => {
   };
 
   const resetSort = () => {
-    fetchTeams();
+    setTeams(originalTeams); // Restaura el estado original desde la copia
     setSorted(false);
   };
 
@@ -41,16 +41,17 @@ const TeamList = () => {
       <ul>
       {teams.map((team) => (
         <li key={team.id}>
-        <h3>{team.name}</h3>
-        <p>{team.description}</p>
-        <Link to={`/team/${team.id}`}>Ver Detalles</Link>
-        <button onClick={() => deleteTeam(team.id)}>Eliminar</button>
-        <Link to={`/edit-team/${team.id}`}>
-        <button>Editar</button>
-        </Link>
+          <h3>{team.name}</h3>
+          <p>{team.description}</p>
+          <Link to={`/team/${team.id}`}>Ver Detalles</Link>
+          <button onClick={() => deleteTeam(team.id)}>Eliminar</button>
+          <Link to={`/edit-team/${team.id}`}>
+            <button>Editar</button>
+          </Link>
         </li>
       ))}
-      </ul>
+    </ul>
+
       <Link to="/add-team">
         <button>Agregar Nuevo Equipo</button>
       </Link>
@@ -58,6 +59,7 @@ const TeamList = () => {
   );
 };
 
-export default TeamList;
 
+
+export default TeamList;
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import './TeamDetails.css';
+
 
 const TeamDetails = () => {
   const { id } = useParams();
@@ -18,13 +20,15 @@ const TeamDetails = () => {
   if (!team) return <p>Cargando...</p>;
 
   return (
-    <div>
+    <div className="container">
       <h1>{team.name}</h1>
-      <p>{team.description}</p>
-      <p>Puntos: {team.points}</p>
-      <p>Goles: {team.goals}</p>
+      <p><span>Descripción:</span> {team.description}</p>
+      <p><span>Puntos:</span> {team.points}</p>
+      <p><span>Goles:</span> {team.goals}</p>
+      <Link to="/" className="back-button">Volver</Link>
     </div>
   );
+  
 };
 
 export default TeamDetails;

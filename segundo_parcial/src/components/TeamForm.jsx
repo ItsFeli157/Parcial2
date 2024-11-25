@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './TeamForm.css';
+
 
 const TeamForm = () => {
   const [form, setForm] = useState({ name: '', description: '', points: 0, goals: 0 });
